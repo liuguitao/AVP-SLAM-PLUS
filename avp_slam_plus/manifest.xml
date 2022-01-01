@@ -1,0 +1,18 @@
+<package>
+  <description brief="AVP_SLAM_PLUS">
+
+     avp_slam_plus
+
+  </description>
+  <author>liu guitao</author>
+  <license>GPLv3</license>
+  <depend package="roscpp"/>
+  <depend package="tf"/>
+  <depend package="sensor_msgs"/>
+  <depend package="image_transport"/>
+  <depend package="cv_bridge"/>
+  
+</package>
+
+
+

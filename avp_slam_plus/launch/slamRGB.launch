@@ -1,0 +1,17 @@
+<launch>
+    <!-- simulation environment -->
+    <include file="$(find simulate_environment)/launch/multiCamera.launch" />
+
+    <!-- load Parameters -->
+    <rosparam file="$(find avp_slam_plus)/config/configFile.yaml" command="load" />
+   
+    <!-- generate point cloud from RGB image of multi cameras -->
+    <node name="pointCloudFromRGB" pkg="avp_slam_plus" type="pointCloudFromRGB" output="screen">
+    </node>
+
+　　 <!--  localization and mapping -->
+    <node name="mapping" pkg="avp_slam_plus" type="mapping" output="screen">
+    </node>
+  
+
+</launch>

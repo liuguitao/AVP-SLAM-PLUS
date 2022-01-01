@@ -1,0 +1,40 @@
+rotateDeg1: -1.0471975511965976
+rotateDeg2: -2.0943951023931953
+rotateDeg3: -3.141592653589793
+rotateDeg4: 2.0943951023931953
+rotateDeg5: 1.0471975511965976
+
+K: [337.2084410968044, 0.0, 320.5, 
+        0.0, 337.2084410968044, 240.5, 
+        0.0, 0.0, 1.0]
+R0: [0, 1.0, 0, 
+        0.0, 0, 1, 
+        1.0, 0.0, 0.0]
+T0: [0,
+     0.5,
+     0.0]
+imageRowIncrease: 2
+imageColIncrease: 4
+cameraRealiableDis: 8 
+skyColor: 178
+pointCloudLeafSize: 0.1
+farPointThresh: 20
+closePointThresh: 0.1
+
+mapSave: true
+mapSaveLocation: "/home/lgt/catkin_ws/src/AVP_SLAM_PLUS/avp_slam_plus/data/laserCloudMap.pcd"
+odomKeyFramDisThresh: 1.0
+InvalidColorThresh: 60
+useICP: false
+IcpMaxCorrespondenceDistance: 20
+IcpMaximumIterations: 100
+IcpTransformationEpsilon: 1e-10
+IcpEuclideanFitnessEpsilon: 0.001
+icpFitnessScoreThresh: 0.3
+useNDT: true
+ndtTransformationEpsilon: 0.01
+ndtResolution: 1.0
+ndtFitnessScoreThresh: 0.3
+
+
+
