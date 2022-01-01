@@ -13,7 +13,7 @@ AVP-SLAM-PLUS is an implementation of AVP_SLAM and some new contributions. Perfo
 <h5 align="center">localization</h5>
 </p>
                   
-AVP_SLAM_PLUS contain a simple implementation of [AVP-SLAM: Semantic Visual Mapping and Localization for Autonomous Vehicles in the Parking Lot(IROS 2020)](https://arxiv.org/abs/2007.01813) and some new contributions.
+AVP-SLAM-PLUS contain a simple implementation of [AVP-SLAM: Semantic Visual Mapping and Localization for Autonomous Vehicles in the Parking Lot(IROS 2020)](https://arxiv.org/abs/2007.01813) and some new contributions.
 
 The new contribustions are as follows: Firstly,the system provide two camera style mode which are multi RGB cameras mode and multi RGBD cameras mode; Secondly,the system provide two registration mode which are ICP mode and NDT mode. Lastly,the system provide mapping mode and localization mode, that means you can not only do SLAM,but also do localization in a prior map.
 
@@ -33,7 +33,7 @@ This code is simple and is a good learning material for SLAM beginners.
 ### 1.1 **Ubuntu** and **ROS**
 Ubuntu 64-bit 18.04.ROS Melodic. [ROS Installation](http://wiki.ros.org/ROS/Installation)
 
-### 1.2 **Clone AVP_SLAM_PLUS** and **Load Gazebo Model** 
+### 1.2 **Clone AVP-SLAM-PLUS** and **Load Gazebo Model** 
 ```
     cd ~/catkin_ws/src
     git clone https://github.com/liuguitao/AVP-SLAM-PLUS.git
@@ -41,7 +41,7 @@ Ubuntu 64-bit 18.04.ROS Melodic. [ROS Installation](http://wiki.ros.org/ROS/Inst
     unzip my_ground_plane.zip -d ~/.gazebo/models/
 ```
 
-## 2. Build AVP_SLAM_PLUS
+## 2. Build AVP-SLAM-PLUS
 
 ```
     cd ~/catkin_ws
