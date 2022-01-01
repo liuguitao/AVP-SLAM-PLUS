@@ -1,18 +1,18 @@
-# AVP_SLAM_PLUS
-An implementation of AVP_SLAM and some new contributions
+# AVP-SLAM-PLUS
+AVP-SLAM-PLUS is an implementation of AVP_SLAM and some new contributions. Performance of AVP-SLAM-PLUS could be found in video(https://www.bilibili.com/video/BV11R4y137xb/)
 
 <p align='center'>
-<img src="images/mapping1.gif"  width = 45% height = 45% " />
+<img src="images/mapping1.gif"  width = 45% height = 40% " />
+<img src="images/mapping2.gif" width = 45% height = 40% />
 <h5 align="center">mapping</h5>
 </p>
 
-
-
 <p align='center'>
-<img src="images/localization1.gif" width = 55% height = 55% />
+<img src="images/localization1.gif" width = 45% height = 45% />
+<img src="images/localization2.gif" width = 45% height = 45% />
 <h5 align="center">localization</h5>
 </p>
-
+                  
 AVP_SLAM_PLUS contain a simple implementation of [AVP-SLAM: Semantic Visual Mapping and Localization for Autonomous Vehicles in the Parking Lot(IROS 2020)](https://arxiv.org/abs/2007.01813) and some new contributions.
 
 The new contribustions are as follows: Firstly,the system provide two camera style mode which are multi RGB cameras mode and multi RGBD cameras mode; Secondly,the system provide two registration mode which are ICP mode and NDT mode. Lastly,the system provide mapping mode and localization mode, that means you can not only do SLAM,but also do localization in a prior map.
@@ -36,8 +36,8 @@ Ubuntu 64-bit 18.04.ROS Melodic. [ROS Installation](http://wiki.ros.org/ROS/Inst
 ### 1.2 **Clone AVP_SLAM_PLUS** and **Load Gazebo Model** 
 ```
     cd ~/catkin_ws/src
-    git clone https://github.com/liuguitao/AVP_SLAM_PLUS.git
-    cd AVP_SLAM_PLUS/avp_slam_plus/model/
+    git clone https://github.com/liuguitao/AVP-SLAM-PLUS.git
+    cd AVP-SLAM-PLUS/avp_slam_plus/model/
     unzip my_ground_plane.zip -d ~/.gazebo/models/
 ```
 
@@ -59,10 +59,6 @@ open a new terminal, control robot move
 ```
     roslaunch robot_control robot_control.launch
 ```
-<p align='center'>
-<img src="images/mapping2.gif"  width = 55% height = 55% />
-<h5 align="center">mapping</h5>
-</p>
 
 #### **save map**
 
@@ -84,10 +80,6 @@ open a new terminal, control robot move
 ```
     roslaunch robot_control robot_control.launch
 ```
-<p align='center'>
-<img src="images/localization2.gif" width = 55% height = 55% />
-<h5 align="center">localization</h5>
-</p>
 
 ### 3.2  **RGBD Mode**
 #### 3.2.1  **MAPPING**
