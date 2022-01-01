@@ -17,8 +17,8 @@ AVP_SLAM_PLUS contain a simple implementation of [AVP-SLAM: Semantic Visual Mapp
 The new contribustions are as follows: Firstly,the system provide two camera style mode which are multi RGB cameras mode and multi RGBD cameras mode; Secondly,the system provide two registration mode which are ICP mode and NDT mode. Lastly,the system provide mapping mode and localization mode, that means you can not only do SLAM,but also do localization in a prior map.
 
 <p align='center'>
-<img src="images/avp_slam_plus_frame" width = 55% height = 55% />
-<h5 align="center">localization</h5>
+<img src="images/avp_slam_plus_frame.PNG" width = 55% height = 55% />
+<h5 align="center">AVP_SLAM_PLUS Framework</h5>
 </p>
 
 This code is simple and is a good learning material for SLAM beginners.
