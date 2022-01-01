@@ -50,7 +50,17 @@ Ubuntu 64-bit 18.04.ROS Melodic. [ROS Installation](http://wiki.ros.org/ROS/Inst
 ```
 ## 3. RUN Example
 ### 3.1  **RGB Mode**
-#### 3.1.1  **MAPPING**
+                  
+#### **save map**
+
+if you want to save map and use the map to do localization, you should ensure your config file have be correctely set. The config file is at   **AVP-SLAM-PLUS/avp_slam_plus/configFile.yaml**
+
+```
+    mapSave: true
+    mapSaveLocation: your map file address 
+```                 
+                  
+#### 3.1.1  **Mapping**
 ```
     roslaunch avp_slam_plus slamRGB.launch
 ```
@@ -60,16 +70,8 @@ open a new terminal, control robot move
     roslaunch robot_control robot_control.launch
 ```
 
-#### **save map**
 
-if you want to save map and use the map to do localization ,you should ensure your config file have be corrected set, then do mapping.the config file is in   **AVP_SLAM_PLUS/avp_slam_plus/configFile.yaml**
-
-```
-    mapSave: true
-    mapSaveLocation: your map file address 
-```
-
-#### 3.1.2  **LOCALIZATION**
+#### 3.1.2  **Localization**
 if you have do 3.1.1 "save map", you can do localization in the prior map.
 ```
     roslaunch avp_slam_plus localizaitonRGB.launch
@@ -82,7 +84,13 @@ open a new terminal, control robot move
 ```
 
 ### 3.2  **RGBD Mode**
-#### 3.2.1  **MAPPING**
+ 
+#### **save map**
+
+if you want to save map and use the map to do localization, you should ensure your config file have be correctely set. The config file is at   **AVP-SLAM-PLUS/avp_slam_plus/configFile.yaml**
+                               
+                               
+#### 3.2.1  **Mapping**
 ```
     roslaunch avp_slam_plus slamRGBD.launch
 ```
@@ -91,16 +99,10 @@ open a new terminal, control robot move
 ```
     roslaunch robot_control robot_control.launch
 ```
-#### **save map**
-if you want to save map and use the map to do localization ,you should ensure your config file have be corrected set, then do mapping.the config file is in   **AVP_SLAM_PLUS/avp_slam_plus/configFile.yaml**
-```
-    mapSave: true
-    mapSaveLocation: your map file address 
 
-```
 
-#### 3.2.2  **LOCALIZATION**
-if you have do 3.2.1 "save map",you can do localization in the prior map.
+#### 3.2.2  **Localization**
+
 ```
     roslaunch avp_slam_plus localizaitonRGBD.launch
 ```
