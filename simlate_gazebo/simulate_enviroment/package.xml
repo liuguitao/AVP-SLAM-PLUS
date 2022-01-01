@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>simulate_environment</name>
+  <version>0.0.0</version>
+  <description>simulate robot and its environment package</description>
+
+  <maintainer email="liuguitao@sia.cn">liu guitao</maintainer>
+
+  <license>BSD</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>gazebo_plugins</build_depend>
+  <build_depend>gazebo_ros</build_depend>
+  <build_depend>gazebo_ros_control</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <run_depend>gazebo_plugins</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+
+
+  <export>
+  </export>
+</package>

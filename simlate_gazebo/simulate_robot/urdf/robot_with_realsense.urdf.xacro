@@ -1,0 +1,414 @@
+<?xml version="1.0"?>
+
+<robot name="mrobot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find simulate_robot)/urdf/robot_body.urdf.xacro" />
+
+    <robot_body/>
+
+
+	<link name="camera0_link">
+        <visual>
+          <origin xyz=" 0 0 0 " rpy="0 0 0" />
+          <geometry>
+          <sphere radius="0.01" />
+          </geometry>
+          <material name="black">
+          <color rgba="0 0 0 0.95"/>
+          </material>
+        </visual>
+    </link>
+
+	<joint name="realsense_frame_joint" type="fixed">
+		<origin xyz="0 0 0.5" rpy="0 0 0" />
+		<parent link="base_link"/>
+		<child link="camera0_link"/>
+	</joint>
+
+    <link name="camera1_link">
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+        <sphere radius="0.01" />
+        </geometry>
+        <material name="black">
+        <color rgba="0 0 0 0.95"/>
+        </material>
+      </visual>
+      </link>
+
+      <joint name="camera1_joint" type="fixed">
+        <origin xyz="0.00 0 0.5" rpy="0 0 1.0471975511965976"/>
+        <parent link="base_link"/>
+        <child link="camera1_link"/>
+      </joint> 
+
+
+      <link name="camera2_link">
+        <visual>
+          <origin xyz=" 0 0 0 " rpy="0 0 0" />
+          <geometry>
+          <sphere radius="0.01" />
+          </geometry>
+          <material name="black">
+          <color rgba="0 0 0 0.95"/>
+          </material>
+        </visual>
+        </link>
+  
+        <joint name="camera2_joint" type="fixed">
+          <origin xyz="0.00 0 0.5" rpy="0 0 2.0943951023931953"/>
+          <parent link="base_link"/>
+          <child link="camera2_link"/>
+        </joint>
+
+        <link name="camera3_link">
+          <visual>
+            <origin xyz=" 0 0 0 " rpy="0 0 0" />
+            <geometry>
+            <sphere radius="0.01" />
+            </geometry>
+            <material name="black">
+            <color rgba="0 0 0 0.95"/>
+            </material>
+          </visual>
+          </link>
+    
+          <joint name="camera3_joint" type="fixed">
+            <origin xyz="0.00 0 0.5" rpy="0 0 3.141592653589793"/>
+            <parent link="base_link"/>
+            <child link="camera3_link"/>
+          </joint> 
+
+          <link name="camera4_link">
+            <visual>
+              <origin xyz=" 0 0 0 " rpy="0 0 0" />
+              <geometry>
+              <sphere radius="0.01" />
+              </geometry>
+              <material name="black">
+              <color rgba="0 0 0 0.95"/>
+              </material>
+            </visual>
+            </link>
+      
+            <joint name="camera4_joint" type="fixed">
+              <origin xyz="0.00 0 0.5" rpy="0 0 -2.0943951023931953"/>
+              <parent link="base_link"/>
+              <child link="camera4_link"/>
+            </joint> 
+
+
+            <link name="camera5_link">
+              <visual>
+                <origin xyz=" 0 0 0 " rpy="0 0 0" />
+                <geometry>
+                <sphere radius="0.01" />
+                </geometry>
+                <material name="black">
+                <color rgba="0 0 0 0.95"/>
+                </material>
+              </visual>
+              </link>
+        
+              <joint name="camera5_joint" type="fixed">
+                <origin xyz="0.00 0 0.5" rpy="0 0 -1.0471975511965976 "/>
+                <parent link="base_link"/>
+                <child link="camera5_link"/>
+              </joint> 
+
+
+        <gazebo reference="camera0_link">
+		<turnGravityOff>false</turnGravityOff>
+		<sensor type="depth" name="realsense_depth">
+		<update_rate>30.0</update_rate>
+		<camera>
+		<!-- 75x65 degree FOV for the depth sensor -->
+		<horizontal_fov>1.5184351666666667</horizontal_fov>
+		<vertical_fov>1.0122901111111111</vertical_fov>
+	
+		<image>
+		<width>640</width>
+		<height>480</height>
+		<!-- TODO: check what format the Realsense hardware delivers and set this to match! -->
+		<format>RGB8</format>
+		</image>
+		<clip>
+		<!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+		<near>0.01</near>
+		<far>50.0</far>
+		</clip>
+		</camera>
+		<plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+		<baseline>0.2</baseline>
+		<alwaysOn>true</alwaysOn>
+		<updateRate>30</updateRate>
+		<cameraName>camera0</cameraName>
+		<imageTopicName>color/image_raw</imageTopicName>
+		<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+		<depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+		<depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+		<pointCloudTopicName>depth/color/points</pointCloudTopicName>
+		<frameName>camera0_link</frameName>
+		<pointCloudCutoff>0.1</pointCloudCutoff>
+		<pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+		<distortionK1>0.00000001</distortionK1>
+		<distortionK2>0.00000001</distortionK2>
+		<distortionK3>0.00000001</distortionK3>
+		<distortionT1>0.00000001</distortionT1>
+		<distortionT2>0.00000001</distortionT2>
+		<CxPrime>0</CxPrime>
+		<Cx>0</Cx>
+		<Cy>0</Cy>
+		<focalLength>0</focalLength>
+		<hackBaseline>0</hackBaseline>
+		</plugin>
+		</sensor>
+	</gazebo>
+
+
+
+    <gazebo reference="camera1_link">
+			<turnGravityOff>false</turnGravityOff>
+			<sensor type="depth" name="realsense_depth">
+			<update_rate>30.0</update_rate>
+			<camera>
+			<!-- 75x65 degree FOV for the depth sensor -->
+			<horizontal_fov>1.5184351666666667</horizontal_fov>
+			<vertical_fov>1.0122901111111111</vertical_fov>
+		
+			<image>
+			<width>640</width>
+			<height>480</height>
+			<!-- TODO: check what format the Realsense hardware delivers and set this to match! -->
+			<format>RGB8</format>
+			</image>
+			<clip>
+			<!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+			<near>0.01</near>
+			<far>50.0</far>
+			</clip>
+			</camera>
+			<plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+			<baseline>0.2</baseline>
+			<alwaysOn>true</alwaysOn>
+			<updateRate>30</updateRate>
+			<cameraName>camera1</cameraName>
+			<imageTopicName>color/image_raw</imageTopicName>
+			<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+			<depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+			<depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+			<pointCloudTopicName>depth/color/points</pointCloudTopicName>
+			<frameName>camera1_link</frameName>
+			<pointCloudCutoff>0.1</pointCloudCutoff>
+			<pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+			<distortionK1>0.00000001</distortionK1>
+			<distortionK2>0.00000001</distortionK2>
+			<distortionK3>0.00000001</distortionK3>
+			<distortionT1>0.00000001</distortionT1>
+			<distortionT2>0.00000001</distortionT2>
+			<CxPrime>0</CxPrime>
+			<Cx>0</Cx>
+			<Cy>0</Cy>
+			<focalLength>0</focalLength>
+			<hackBaseline>0</hackBaseline>
+			</plugin>
+			</sensor>
+			</gazebo>
+
+            <gazebo reference="camera2_link">
+				<turnGravityOff>false</turnGravityOff>
+				<sensor type="depth" name="realsense_depth">
+				<update_rate>30.0</update_rate>
+				<camera>
+				<!-- 75x65 degree FOV for the depth sensor -->
+				<horizontal_fov>1.5184351666666667</horizontal_fov>
+				<vertical_fov>1.0122901111111111</vertical_fov>
+			
+				<image>
+				<width>640</width>
+				<height>480</height>
+				<!-- TODO: check what format the Realsense hardware delivers and set this to match! -->
+				<format>RGB8</format>
+				</image>
+				<clip>
+				<!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+				<near>0.01</near>
+				<far>50.0</far>
+				</clip>
+				</camera>
+				<plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+				<baseline>0.2</baseline>
+				<alwaysOn>true</alwaysOn>
+				<updateRate>30</updateRate>
+				<cameraName>camera2</cameraName>
+				<imageTopicName>color/image_raw</imageTopicName>
+				<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+				<depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+				<depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+				<pointCloudTopicName>depth/color/points</pointCloudTopicName>
+				<frameName>camera2_link</frameName>
+				<pointCloudCutoff>0.1</pointCloudCutoff>
+				<pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+				<distortionK1>0.00000001</distortionK1>
+				<distortionK2>0.00000001</distortionK2>
+				<distortionK3>0.00000001</distortionK3>
+				<distortionT1>0.00000001</distortionT1>
+				<distortionT2>0.00000001</distortionT2>
+				<CxPrime>0</CxPrime>
+				<Cx>0</Cx>
+				<Cy>0</Cy>
+				<focalLength>0</focalLength>
+				<hackBaseline>0</hackBaseline>
+				</plugin>
+				</sensor>
+				</gazebo>
+
+
+				<gazebo reference="camera3_link">
+					<turnGravityOff>false</turnGravityOff>
+					<sensor type="depth" name="realsense_depth">
+					<update_rate>30.0</update_rate>
+					<camera>
+					<!-- 75x65 degree FOV for the depth sensor -->
+					<horizontal_fov>1.5184351666666667</horizontal_fov>
+					<vertical_fov>1.0122901111111111</vertical_fov>
+				
+					<image>
+					<width>640</width>
+					<height>480</height>
+					<!-- TODO: check what format the Realsense hardware delivers and set this to match! -->
+					<format>RGB8</format>
+					</image>
+					<clip>
+					<!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+					<near>0.01</near>
+					<far>50.0</far>
+					</clip>
+					</camera>
+					<plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+					<baseline>0.2</baseline>
+					<alwaysOn>true</alwaysOn>
+					<updateRate>30</updateRate>
+					<cameraName>camera3</cameraName>
+					<imageTopicName>color/image_raw</imageTopicName>
+					<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+					<depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+					<depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+					<pointCloudTopicName>depth/color/points</pointCloudTopicName>
+					<frameName>camera3_link</frameName>
+					<pointCloudCutoff>0.1</pointCloudCutoff>
+					<pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+					<distortionK1>0.00000001</distortionK1>
+					<distortionK2>0.00000001</distortionK2>
+					<distortionK3>0.00000001</distortionK3>
+					<distortionT1>0.00000001</distortionT1>
+					<distortionT2>0.00000001</distortionT2>
+					<CxPrime>0</CxPrime>
+					<Cx>0</Cx>
+					<Cy>0</Cy>
+					<focalLength>0</focalLength>
+					<hackBaseline>0</hackBaseline>
+					</plugin>
+					</sensor>
+					</gazebo>
+
+
+					<gazebo reference="camera4_link">
+						<turnGravityOff>false</turnGravityOff>
+						<sensor type="depth" name="realsense_depth">
+						<update_rate>30.0</update_rate>
+						<camera>
+						<!-- 75x65 degree FOV for the depth sensor -->
+						<horizontal_fov>1.5184351666666667</horizontal_fov>
+						<vertical_fov>1.0122901111111111</vertical_fov>
+					
+						<image>
+						<width>640</width>
+						<height>480</height>
+						<!-- TODO: check what format the Realsense hardware delivers and set this to match! -->
+						<format>RGB8</format>
+						</image>
+						<clip>
+						<!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+						<near>0.01</near>
+						<far>50.0</far>
+						</clip>
+						</camera>
+						<plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+						<baseline>0.2</baseline>
+						<alwaysOn>true</alwaysOn>
+						<updateRate>30</updateRate>
+						<cameraName>camera4</cameraName>
+						<imageTopicName>color/image_raw</imageTopicName>
+						<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+						<depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+						<depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+						<pointCloudTopicName>depth/color/points</pointCloudTopicName>
+						<frameName>camera4_link</frameName>
+						<pointCloudCutoff>0.1</pointCloudCutoff>
+						<pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+						<distortionK1>0.00000001</distortionK1>
+						<distortionK2>0.00000001</distortionK2>
+						<distortionK3>0.00000001</distortionK3>
+						<distortionT1>0.00000001</distortionT1>
+						<distortionT2>0.00000001</distortionT2>
+						<CxPrime>0</CxPrime>
+						<Cx>0</Cx>
+						<Cy>0</Cy>
+						<focalLength>0</focalLength>
+						<hackBaseline>0</hackBaseline>
+						</plugin>
+						</sensor>
+						</gazebo>
+
+
+						<gazebo reference="camera5_link">
+							<turnGravityOff>false</turnGravityOff>
+							<sensor type="depth" name="realsense_depth">
+							<update_rate>30.0</update_rate>
+							<camera>
+							<!-- 75x65 degree FOV for the depth sensor -->
+							<horizontal_fov>1.5184351666666667</horizontal_fov>
+							<vertical_fov>1.0122901111111111</vertical_fov>
+						
+							<image>
+							<width>640</width>
+							<height>480</height>
+							<!-- TODO: check what format the Realsense hardware delivers and set this to match! -->
+							<format>RGB8</format>
+							</image>
+							<clip>
+							<!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+							<near>0.01</near>
+							<far>50.0</far>
+							</clip>
+							</camera>
+							<plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+							<baseline>0.2</baseline>
+							<alwaysOn>true</alwaysOn>
+							<updateRate>30</updateRate>
+							<cameraName>camera5</cameraName>
+							<imageTopicName>color/image_raw</imageTopicName>
+							<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+							<depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+							<depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+							<pointCloudTopicName>depth/color/points</pointCloudTopicName>
+							<frameName>camera5_link</frameName>
+							<pointCloudCutoff>0.1</pointCloudCutoff>
+							<pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+							<distortionK1>0.00000001</distortionK1>
+							<distortionK2>0.00000001</distortionK2>
+							<distortionK3>0.00000001</distortionK3>
+							<distortionT1>0.00000001</distortionT1>
+							<distortionT2>0.00000001</distortionT2>
+							<CxPrime>0</CxPrime>
+							<Cx>0</Cx>
+							<Cy>0</Cy>
+							<focalLength>0</focalLength>
+							<hackBaseline>0</hackBaseline>
+							</plugin>
+							</sensor>
+							</gazebo>
+
+</robot>

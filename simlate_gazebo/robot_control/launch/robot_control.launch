@@ -1,0 +1,6 @@
+<launch>
+  <node name="robot_control" pkg="robot_control" type="robot_control.py" output="screen">
+    <param name="scale_linear" value="0.30" type="double"/>
+    <param name="scale_angular" value="0.15" type="double"/>
+  </node>
+</launch>
