@@ -2,8 +2,7 @@
 An implementation of AVP_SLAM and some new contributions
 
 <p align='center'>
-<img src="images/mapping1.gif"  width = 45% height = 45% 
-     src="images/mapping2.gif" />
+<img src="images/mapping1.gif"  width = 45% height = 45% " />
 <h5 align="center">mapping</h5>
 </p>
 
