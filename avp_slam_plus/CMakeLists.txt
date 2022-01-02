@@ -23,8 +23,7 @@ find_package(PCL REQUIRED)
 find_package(OpenCV 3.2.0  REQUIRED)
 
 include_directories(
-  include
-	${catkin_INCLUDE_DIRS} 
+  ${catkin_INCLUDE_DIRS} 
   ${PCL_INCLUDE_DIRS}
 
   ${OpenCV_INCLUDE_DIRS})
