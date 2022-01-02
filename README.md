@@ -75,7 +75,7 @@ if you firstly control robot move, you should ensure **robot_control.py** in **A
 ```                 
 
 #### 3.1.2  **Localization**
-if you have do 3.1.1 "save map", you can do localization in the prior map.
+if you have do 3.1.1 and "save map", you can do localization in the prior map.
 ```
     roslaunch avp_slam_plus localizaitonRGB.launch
 ```
@@ -91,6 +91,10 @@ open a new terminal, control robot move
 #### **save map**
 
 if you want to save map and use the map to do localization, you should ensure your config file have be correctely set. The config file is at   **AVP-SLAM-PLUS-main/avp_slam_plus/configFile.yaml**
+```
+    mapSave: true
+    mapSaveLocation: your map file address 
+```   
                                
                                
 #### 3.2.1  **Mapping**
@@ -105,6 +109,7 @@ open a new terminal, control robot move
 
 
 #### 3.2.2  **Localization**
+if you have do 3.2.1 and "save map", you can do localization in the prior map.
 
 ```
     roslaunch avp_slam_plus localizaitonRGBD.launch
