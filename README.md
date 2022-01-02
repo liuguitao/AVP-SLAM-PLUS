@@ -65,11 +65,14 @@ if you want to save map and use the map to do localization, you should ensure yo
     roslaunch avp_slam_plus slamRGB.launch
 ```
 
-open a new terminal, control robot move. if you firstly control robot move, you should ensure robot_control.py in AVP-SLAM-PLUS/simlate_gazebo/robot_control/ to be executable.
+open a new terminal, control robot move. 
 ```
     roslaunch robot_control robot_control.launch
 ```
-
+if you firstly control robot move, you should ensure **robot_control.py** in **AVP-SLAM-PLUS/simlate_gazebo/robot_control/** to be executable. you can do this command to let **robot_control.py** to be executable.
+```
+    chmod +777 robot_control.py
+```                 
 
 #### 3.1.2  **Localization**
 if you have do 3.1.1 "save map", you can do localization in the prior map.
