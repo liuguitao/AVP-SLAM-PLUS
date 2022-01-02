@@ -37,7 +37,7 @@ Ubuntu 64-bit 18.04.ROS Melodic. [ROS Installation](http://wiki.ros.org/ROS/Inst
 ```
     cd ~/catkin_ws/src
     git clone https://github.com/liuguitao/AVP-SLAM-PLUS.git
-    cd AVP-SLAM-PLUS-main/avp_slam_plus/model/
+    cd AVP-SLAM-PLUS/avp_slam_plus/model/
     unzip my_ground_plane.zip -d ~/.gazebo/models/
 ```
 
@@ -53,7 +53,7 @@ Ubuntu 64-bit 18.04.ROS Melodic. [ROS Installation](http://wiki.ros.org/ROS/Inst
                   
 #### **save map**
 
-if you want to save map and use the map to do localization, you should ensure your config file have be correctely set. The config file is at   **AVP-SLAM-PLUS-main/avp_slam_plus/configFile.yaml**
+if you want to save map and use the map to do localization, you should ensure your config file have be correctely set. The config file is at   **AVP-SLAM-PLUS/avp_slam_plus/configFile.yaml**
 
 ```
     mapSave: true
