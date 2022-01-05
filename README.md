@@ -1,5 +1,5 @@
 # AVP-SLAM-PLUS
-AVP-SLAM-PLUS is an implementation of AVP_SLAM and some new contributions. Performance of AVP-SLAM-PLUS could be found in video(https://www.bilibili.com/video/BV11R4y137xb/)
+AVP-SLAM-PLUS is an implementation of AVP-SLAM and some new contributions. Performance of AVP-SLAM-PLUS could be found in video(https://www.bilibili.com/video/BV11R4y137xb/)
 
 <p align='center'>
 <img src="images/mapping1.gif"  width = 45% height = 40% " />
@@ -19,7 +19,7 @@ The new contribustions are as follows: Firstly,the system provide two camera sty
 
 <p align='center'>
 <img src="images/avp_slam_plus_frame.PNG" width = 55% height = 55% />
-<h5 align="center">AVP_SLAM_PLUS Framework</h5>
+<h5 align="center">AVP-SLAM-PLUS Framework</h5>
 </p>
 
 This code is simple and is a good learning material for SLAM beginners.
