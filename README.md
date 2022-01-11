@@ -77,7 +77,7 @@ if you firstly control robot move, you should ensure **robot_control.py** in **A
 #### 3.1.2  **Localization**
 if you have do 3.1.1 and "save map", you can do localization in the prior map.
 ```
-    roslaunch avp_slam_plus localizaitonRGB.launch
+    roslaunch avp_slam_plus localizationRGB.launch
 ```
 
 
@@ -112,7 +112,7 @@ open a new terminal, control robot move
 if you have do 3.2.1 and "save map", you can do localization in the prior map.
 
 ```
-    roslaunch avp_slam_plus localizaitonRGBD.launch
+    roslaunch avp_slam_plus localizationRGBD.launch
 ```
 
 open a new terminal, control robot move
