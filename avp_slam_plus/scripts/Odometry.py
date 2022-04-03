@@ -15,7 +15,7 @@ odom_c1 = 0.01
 odom_c2 = 0.01
 odom_c3 = 0.01
 odom_c4 = 0.01
-dt = 1.0/10
+# dt = 1.0/10
 id = 0
 pre_id = -1
 
@@ -51,11 +51,14 @@ def odom_callback(data):
     global previous_pose
     global id
     global pre_id
+    global pre_time
+    now = rospy.get_time()
+    
     # odom_vel_cmd = Twist()
-    delta_t = dt
+    delta_t = dt = now - pre_time
     theta = previous_pose[2]
 
-
+    # print(dt)
 
     
     o_R = np.array([[(odom_c1* abs(v)+odom_c2*abs(w))**2, 0], [0, (odom_c3* abs(v)+odom_c4*abs(w))**2]]) + 1e-10
@@ -92,7 +95,8 @@ def odom_callback(data):
     pre_id += 1 
     # edge_pub.publish(edge_output)    
     # vertex_pub.publish(vertex_output)    
-
+    # print(now - pre_time)
+    pre_time = now
 #     return new_pose
 
 if __name__ == '__main__':
@@ -101,7 +105,7 @@ if __name__ == '__main__':
         vertex_pub = rospy.Publisher('/vertex_odom', String, queue_size=10)
         edge_pub = rospy.Publisher('/edge_odom', String, queue_size=10)
         cmd_pub = rospy.Publisher('/actual_cmd_vel', Twist, queue_size=10)
-
+        pre_time = rospy.get_time()
         # subscribe ctrl_cmd
         rospy.Subscriber("/cmd_vel", Twist, odom_callback)
         rospy.spin()
