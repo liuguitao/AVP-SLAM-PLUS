@@ -46,3 +46,11 @@ target_link_libraries(mapping ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES
 
 add_executable(localization src/localization.cpp)
 target_link_libraries(localization ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
+
+catkin_install_python(PROGRAMS scripts/Odometry.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS scripts/talker.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
