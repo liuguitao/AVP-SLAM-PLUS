@@ -59,6 +59,8 @@ double timeCamera5Points=0;
 float closePointThresh=0.1;
 float farPointThresh=20;
 float pointCloudLeafSize=0.1;
+double cameraRealiableDis=15.0;
+int skyColor=178;
 
 
 // delete close point
@@ -393,7 +395,6 @@ int main(int argc, char *argv[]){
 
           
 
-
              *cameraFrameCloud=*cameraFrameCloud+*camera0Cloud;
              *cameraFrameCloud=*cameraFrameCloud+*camera1Cloud;
              *cameraFrameCloud=*cameraFrameCloud+*camera2Cloud;
@@ -412,7 +413,6 @@ int main(int argc, char *argv[]){
             cameraCloudFrameMsg.header.stamp = ros::Time::now();
             cameraCloudFrameMsg.header.frame_id = "/camera0_link";
             pubCameraCloudFrame.publish(cameraCloudFrameMsg);
-     
         }
 
         rate.sleep();
