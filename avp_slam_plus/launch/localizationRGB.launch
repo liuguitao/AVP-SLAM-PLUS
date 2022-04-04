@@ -10,7 +10,11 @@
     <node name="pointCloudFromRGB" pkg="avp_slam_plus" type="pointCloudFromRGB" output="screen">
     </node>
 
-　 　<!-- relocated in prior map -->
+    <!-- publsih static map -->
+    <node name="static_transform_publisher" pkg="tf" type="static_transform_publisher" args="0.0 0.0 0.0 0.0 0.0 0.0 map odom 100">
+    </node>
+
+    <!-- relocated in prior map -->
     <node name="localization" pkg="avp_slam_plus" type="localization" output="screen">
    </node>
 
