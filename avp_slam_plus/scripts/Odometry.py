@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-# import string
 import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 import numpy as np
 from math import sin, cos
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
 
 gazebo_c1 = 0.05
 gazebo_c2 = 0.05
@@ -15,7 +16,6 @@ odom_c1 = 0.01
 odom_c2 = 0.01
 odom_c3 = 0.01
 odom_c4 = 0.01
-# dt = 1.0/10
 id = 0
 pre_id = -1
 
@@ -25,12 +25,8 @@ def odom_callback(data):
     global vertex_pub
     global edge_pub
     global cmd_pub
-    # odom_pub.publish(data)
-    # print(data.linear.x)
-    # print(data.angular.z)
     v = data.linear.x
     w = data.angular.z
-    # print("ideal: ", v, w)
 
     ######################################################################
     #################### calculate vel cmd for gazebo ####################
@@ -54,11 +50,8 @@ def odom_callback(data):
     global pre_time
     now = rospy.get_time()
     
-    # odom_vel_cmd = Twist()
     delta_t = dt = now - pre_time
     theta = previous_pose[2]
-
-    # print(dt)
 
     
     o_R = np.array([[(odom_c1* abs(v)+odom_c2*abs(w))**2, 0], [0, (odom_c3* abs(v)+odom_c4*abs(w))**2]]) + 1e-10
@@ -70,34 +63,34 @@ def odom_callback(data):
                 [ (cos(theta)-cos(theta+w_odom*dt))/w_odom,  -v_odom*(cos(theta)-cos(theta+w_odom*dt))/(w_odom**2) + (v_odom*sin(theta+w_odom*dt)*dt)/w_odom ],
                 [0, dt]])
 
-    # print("R ", o_R)
-    # print("V ", Vt)
     cov = np.matmul(np.matmul(Vt, o_R), Vt.T)
-    # print(cov)
-    # print((-sin(theta)+sin(theta+w_odom*dt))/w_odom)
-    # print("odom: ", v_odom, w_odom)
 
-#     # print("v_actual", v_actual)
-#     # print("w_actual", w_actual)
     delta_x = v_odom*delta_t*np.cos(previous_pose[2] + w_odom*delta_t)
     delta_y = v_odom*delta_t*np.sin(previous_pose[2] + w_odom*delta_t)
     delta_theta = w_odom * delta_t
     delta_pose = np.array([delta_x, delta_y, delta_theta])
     new_pose = previous_pose + delta_pose
-    # print(new_pose)
-    vertex_output = "VERTEX_SE2" + " " +  str(id) + " " + str(new_pose[0]) + " " + str(new_pose[1]) + " " + str(new_pose[2])
-    edge_output = "EDGE_SE2" + " " + str(pre_id) + " " + str(id) + " " + str(delta_x) + " " + str(delta_y) + " " + str(delta_theta) \
+    # odom = Odometry()
+    # odom.header.stamp = now
+    # odom.header.frame_id = "odom"
+
+    # # set the position
+    # odom.pose.pose = Pose(Point(x, y, 0.), Quaternion(*odom_quat))
+
+    # # set the velocity
+    # odom.child_frame_id = "base_link"
+    # odom.twist.twist = Twist(Vector3(vx, vy, 0), Vector3(0, 0, vth))
+    vertex_output = "VERTEX_SE2" + " " +  str(now) + " " + str(new_pose[0]) + " " + str(new_pose[1]) + " " + str(new_pose[2])
+    edge_output = "EDGE_SE2" + " " + str(pre_time) + " " + str(now) + " " + str(delta_x) + " " + str(delta_y) + " " + str(delta_theta) \
         + " " + str(cov[0, 0]) + " " + str(cov[0, 1]) + " " + str(cov[0, 2]) + " " + str(cov[1, 1]) + " " + str(cov[1, 2]) + " " + str(cov[2, 2])
-    print(vertex_output)
-    print(edge_output)
+    # print(vertex_output)
+    # print(edge_output)
     previous_pose = new_pose
     id += 1
-    pre_id += 1 
-    # edge_pub.publish(edge_output)    
-    # vertex_pub.publish(vertex_output)    
-    # print(now - pre_time)
+    pre_id += 1
+    edge_pub.publish(edge_output)    
+    vertex_pub.publish(vertex_output)    
     pre_time = now
-#     return new_pose
 
 if __name__ == '__main__':
     try:
