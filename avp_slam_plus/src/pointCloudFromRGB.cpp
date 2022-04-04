@@ -414,6 +414,8 @@ void removeUnsynData(double& timeMax,double& timeCameraImage,std::queue<sensor_m
 
 //    compute point cloud according to IPM principle
 void  calCloudFromImage(Eigen::Matrix3d& K, Eigen::Matrix3d& RT,const cv::Mat& image,pcl::PointCloud<PointType>::Ptr& cameraCloud){
+        // std::cout << "flipped" << std::endl;
+        
         Eigen::Matrix3d KInv=K.inverse();
         Eigen::Matrix3d RTInv=RT.inverse();
        int row=image.rows;
@@ -450,6 +452,7 @@ void  calCloudFromImage(Eigen::Matrix3d& K, Eigen::Matrix3d& RT,const cv::Mat& i
                
                PointType po;
                po.x = u1.x();
+	        //    po.y = u1.y();
 	           po.y = -u1.y();
 	           po.z = 0;
                po.r=r;

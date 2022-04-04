@@ -19,20 +19,38 @@ def stop():
     moves.append((0,0,0.1))
 
 distance_from_center = 3
-turnLeft90()
-forward(distance_from_center)
+# turnLeft90()
+# forward(distance_from_center)
+# turnRight90()
+# forward(3*20)
+# turnRight90()
+# forward(distance_from_center*2)
+# turnRight90()
+# forward(3*20-distance_from_center)
+# turnLeft90()
+# forward(2*20-distance_from_center)
+# turnRight90()
+# forward(distance_from_center*2)
+# turnRight90()
+# forward(2*20)
+
+# turnRight90()
+forward(15)
 turnRight90()
-forward(3*20)
+forward(5)
 turnRight90()
-forward(distance_from_center*2)
+forward(15)
 turnRight90()
-forward(3*20-distance_from_center)
-turnLeft90()
-forward(2*20-distance_from_center)
+forward(5)
 turnRight90()
-forward(distance_from_center*2)
+forward(5)
 turnRight90()
-forward(2*20)
+forward(15)
+turnRight90()
+forward(5)
+turnRight90()
+forward(15)
+# turnRight90()
 stop()
 
 timeSent = 0
@@ -42,9 +60,12 @@ twist = Twist()
 if __name__=="__main__":
     
     pub = rospy.Publisher('/cmd_vel', Twist, queue_size=5)
+    # pub = rospy.Publisher('/ideal_cmd_vel', Twist, queue_size=5)
     rospy.init_node('mrobot_teleop')
     rate = rospy.Rate(100)
 
+    # # wait for other node to start
+    # rospy.sleep(1)
     while not rospy.is_shutdown():
 
         if(time.time()>timeSent):
@@ -62,7 +83,8 @@ if __name__=="__main__":
             twist.angular.y = 0; 
             twist.angular.z = move[1]
 
-            timeSent = time.time()+move[2]*1.0742
+            timeSent = time.time()+move[2]*1.40
+            print("1.40")
 
         pub.publish(twist)
         rate.sleep()

@@ -7,10 +7,10 @@ from math import sin, cos
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
 
-gazebo_c1 = 0.05
-gazebo_c2 = 0.05
-gazebo_c3 = 0.05
-gazebo_c4 = 0.05
+gazebo_c1 = 0.001
+gazebo_c2 = 0.001
+gazebo_c3 = 0.001
+gazebo_c4 = 0.001
 
 odom_c1 = 0.01
 odom_c2 = 0.01
@@ -24,7 +24,7 @@ previous_pose = np.array([0, 0, 0])
 def odom_callback(data):
     global vertex_pub
     global edge_pub
-    global cmd_pub
+    # global cmd_pub
     v = data.linear.x
     w = data.angular.z
 
@@ -40,7 +40,8 @@ def odom_callback(data):
     # print("actual: ", v_actual, w_actual)
     gazebo_vel_cmd.linear.x = v_actual
     gazebo_vel_cmd.angular.z = w_actual
-    cmd_pub.publish(gazebo_vel_cmd)
+    # cmd_pub.publish(data)
+    # cmd_pub.publish(gazebo_vel_cmd)
     ######################################################################
     ################## ready to publish as noisy input ###################
     ######################################################################
@@ -97,7 +98,7 @@ if __name__ == '__main__':
         rospy.init_node('Odometry', anonymous=True)
         vertex_pub = rospy.Publisher('/vertex_odom', String, queue_size=10)
         edge_pub = rospy.Publisher('/edge_odom', String, queue_size=10)
-        cmd_pub = rospy.Publisher('/actual_cmd_vel', Twist, queue_size=10)
+        # cmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         pre_time = rospy.get_time()
         # subscribe ctrl_cmd
         rospy.Subscriber("/cmd_vel", Twist, odom_callback)
