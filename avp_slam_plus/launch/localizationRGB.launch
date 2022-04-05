@@ -10,8 +10,21 @@
     <node name="pointCloudFromRGB" pkg="avp_slam_plus" type="pointCloudFromRGB" output="screen">
     </node>
 
-　 　<!-- relocated in prior map -->
+    <!-- publsih static map -->
+    <node name="static_transform_publisher" pkg="tf" type="static_transform_publisher" args="0.0 0.0 0.0 0.0 0.0 0.0 map odom 100"> -->
+    </node>
+
+    <!-- relocated in prior map -->
     <node name="localization" pkg="avp_slam_plus" type="localization" output="screen">
    </node>
+
+    <!-- run odometry -->
+    <node name="Odometry" pkg="avp_slam_plus" type="Odometry.py" output="screen">
+   </node>
+
+   <!-- convert qt to rpy  -->
+    <node name="qt" pkg="convert_orientation" type="qt" output="screen">
+   </node>
+
 
 </launch>
