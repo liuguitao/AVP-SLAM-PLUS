@@ -9,11 +9,13 @@ import time
 moves = []
 
 def turnLeft90():
-    moves.append((0,-math.pi/20,10))
+    speed = 0.015
+    moves.append((0,-math.pi/2*speed,1/speed))
 def turnRight90():
-    moves.append((0,math.pi/20,10))
+    speed = 0.015
+    moves.append((0,math.pi/2*speed,1/speed))
 def forward(x):
-    speed = 0.4
+    speed = 0.1
     moves.append((speed,0,x/speed))
 def stop():
     moves.append((0,0,0.1))
@@ -35,34 +37,51 @@ turnRight90()
 forward(2*20)
 stop()
 
+# for i in range(4):
+#     forward(5)
+#     turnRight90()
+# stop()
+
 timeSent = 0
 index = 0
 twist = Twist()
 
 if __name__=="__main__":
+
     
     pub = rospy.Publisher('/cmd_vel', Twist, queue_size=5)
     rospy.init_node('mrobot_teleop')
     rate = rospy.Rate(100)
 
-    while not rospy.is_shutdown():
+    try:
 
-        if(time.time()>timeSent):
-            move = moves[index]
-            index+=1
-            if(index>len(moves)):
-                exit()
+        while not rospy.is_shutdown():
 
-            print('performing',move,time.time())
+            if(time.time()>timeSent):
+                move = moves[index]
+                index+=1
+                if(index>=len(moves)):
+                    break
 
-            twist.linear.x = move[0]; 
-            twist.linear.y = 0; 
-            twist.linear.z = 0
-            twist.angular.x = 0; 
-            twist.angular.y = 0; 
-            twist.angular.z = move[1]
+                print('performing',move,time.time())
 
-            timeSent = time.time()+move[2]*1.0742
+                twist.linear.x = move[0]
+                twist.linear.y = 0
+                twist.linear.z = 0
+                twist.angular.x = 0
+                twist.angular.y = 0
+                twist.angular.z = move[1]
 
+                timeSent = time.time()+move[2]*1.0742
+
+            pub.publish(twist)
+            rate.sleep()
+
+    except:
+        pass
+
+    finally:
+        twist = Twist()
+        twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
+        twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
         pub.publish(twist)
-        rate.sleep()

@@ -8,22 +8,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 lastGT = Pose()
+lastPose = Pose()
 GTList = []
 poseList = []
 
-GT = rospy.Publisher('/GT', Odometry, queue_size=10)
+GT = rospy.Publisher('/GT', Odometry, queue_size=1)
 
 def GroundTruthCallback(data):
     global lastGT
+    global lastPose
     pose = data.pose[6]
-    pose.position.y*=-1
     lastGT = pose
-    #GT Y is flipped to match the RVIZ viewer
+
+    if(len(poseList)>0):
+        msg = lastPose
+        msg.pose.pose=lastGT
+        GT.publish(msg)
 
     #rospy.loginfo("GT %f %f %f", pose.position.x, -pose.position.y, pose.position.z)
 
 def PoseCallback(data):
     global lastGT
+    global lastPose
+    lastPose = data
     pose = data.pose.pose
     poseList.append([pose.position.x,pose.position.y,pose.position.z])
     GTList.append([lastGT.position.x,lastGT.position.y,lastGT.position.z])
@@ -31,8 +38,8 @@ def PoseCallback(data):
     rospy.loginfo("Pose %f %f %f", pose.position.x, pose.position.y, pose.position.z)
     rospy.loginfo("GT %f %f %f", lastGT.position.x, lastGT.position.y, lastGT.position.z)
 
-    data.pose.pose = lastGT
-    GT.publish(data)
+    # data.pose.pose = lastGT
+    # GT.publish(data)
 
 if __name__=="__main__":
 

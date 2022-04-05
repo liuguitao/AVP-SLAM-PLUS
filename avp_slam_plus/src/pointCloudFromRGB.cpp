@@ -387,19 +387,6 @@ void systemInit(){
 }
 
 
-void transformToFrame(PointType const *const pi, PointType *const po, Eigen::Quaterniond q, Eigen::Vector3d t)
-{
-	Eigen::Vector3d point_curr(pi->x, pi->y, pi->z);
-	Eigen::Vector3d point_w = q * point_curr + t;
-	po->x = point_w.x();
-	po->y = point_w.y();
-	po->z = point_w.z();
-    po->r=pi->r;
-    po->g=pi->g;
-    po->b=pi->b;
-	
-}
-
 
 //   synchronism images of all camera
 void removeUnsynData(double& timeMax,double& timeCameraImage,std::queue<sensor_msgs::ImageConstPtr>& cameraImageBuf){
@@ -429,7 +416,7 @@ void  calCloudFromImage(Eigen::Matrix3d& K, Eigen::Matrix3d& RT,const cv::Mat& i
             int r=p[3*j+2];
            //   there,for simplicity,just according to color,detect invalid area like sky area;
            //   for real scene,should adapt machine learning method or other method detecting invalid area
-            if(b==skyColor ){
+            if(b==skyColor || b==skyColor+1 || b==skyColor-1){
                 break;
             }
               
@@ -449,8 +436,8 @@ void  calCloudFromImage(Eigen::Matrix3d& K, Eigen::Matrix3d& RT,const cv::Mat& i
                     continue;
                
                PointType po;
-               po.x = u1.x();
-	           po.y = -u1.y();
+               po.x = u1(0);
+	           po.y = -u1(1);
 	           po.z = 0;
                po.r=r;
                po.g=g;

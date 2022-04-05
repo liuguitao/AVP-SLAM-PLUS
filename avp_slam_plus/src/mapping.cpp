@@ -266,6 +266,28 @@ void cameraCloudHandler(const sensor_msgs::PointCloud2ConstPtr &cameraCloudMsg)
 
 }
 
+// get initial pose from outer program ;For example ,judging position of robot from gps or mannual marker
+void gtPoseHandler(const nav_msgs::Odometry::ConstPtr &initpose){
+         
+    double tempw = initpose->pose.pose.orientation.w;
+    double tempx = initpose->pose.pose.orientation.x;
+    double tempy= initpose->pose.pose.orientation.y;
+    double tempz = initpose->pose.pose.orientation.z;
+    
+    double x = initpose->pose.pose.position.x;
+    double y = initpose->pose.pose.position.y;
+    double z = initpose->pose.pose.position.z;
+
+    double rol,pit,yaw;
+    tf::Matrix3x3(tf::Quaternion(tempx, tempy, tempz, tempw)).getRPY(rol, pit,yaw);
+
+    transWorldCurrent=pcl::getTransformation(x,y,z,rol,pit,yaw);
+
+    pcl::getTranslationAndEulerAngles(transWorldCurrent,currentX,currentY,currentZ,currentRoll,currentPitch,currentYaw);
+    std::cout << "saved new pose" << std::endl;
+}
+
+
 
 //  save map for relocation
 void saveMap_callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
@@ -304,6 +326,7 @@ int main(int argc, char *argv[]){
     
     ros::Subscriber subcameraCloud = nh.subscribe<sensor_msgs::PointCloud2>("/cameraCloudFrame", 100, cameraCloudHandler);
     ros::Subscriber subSaveMap = nh.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10, saveMap_callback);
+    // ros::Subscriber subInitpose = nh.subscribe<nav_msgs::Odometry>("/GT", 1,  gtPoseHandler);
     
     pubCurrentFeature = nh.advertise<sensor_msgs::PointCloud2>("/currentFeature", 100);
     pubCurrentFeatureInWorld= nh.advertise<sensor_msgs::PointCloud2>("/currentFeatureInWorld", 100);
