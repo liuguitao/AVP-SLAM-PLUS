@@ -60,7 +60,8 @@ int main(int argc, char *argv[]){
     float currentPitch=0;
     float currentYaw=0;
 
-    int indexCount = 0;
+    int vertexCount = 0;
+    int edgeCount = 0;
 
     for(rosbag::MessageInstance const m: rosbag::View(bag))
     {
@@ -75,14 +76,15 @@ int main(int argc, char *argv[]){
             size_t pos = text.find(" ");
             std::string name = text.substr(0, pos);
             if(name == "VERTEX_SE2"){
-                indexCount+=1;
+                vertexCount ++;
                 text = text.erase(0,pos+1);
                 pos = text.find(" ");
                 //ignore time
                 text = text.erase(0,pos+1);
-                myfile << name << " " << indexCount << " " << text << std::endl;
+                myfile << name << " " << vertexCount << " " << text << std::endl;
             }
-            else if(name == "EDGE_SE2"){
+            else if(name == "EDGE_SE2" && vertexCount>0){
+                edgeCount ++;
                 text = text.erase(0,pos+1);
                 pos = text.find(" ");
                 //ignore time 1
@@ -90,7 +92,7 @@ int main(int argc, char *argv[]){
                 pos = text.find(" ");
                 //ignore time 2
                 text = text.erase(0,pos+1);
-                myfile << name << " " << indexCount-1 << " " << indexCount << " " << text << std::endl;
+                myfile << name << " " << edgeCount << " " << edgeCount+1 << " " << text << std::endl;
             }
             
         }
@@ -103,7 +105,7 @@ int main(int argc, char *argv[]){
             //std::cout << cloud->size() << std::endl;
 
             pointClouds.push_back(cloud);
-            pointCloudsTime.push_back(indexCount);
+            pointCloudsTime.push_back(vertexCount);
         }
     }
 
@@ -112,6 +114,7 @@ int main(int argc, char *argv[]){
 
     int ignoredClouds = 30;
     int cloudIncrement = 10;
+    int newEdgeCount = 0;
 
     static pcl::IterativeClosestPoint<PointType, PointType> icp;
     icp.setMaxCorrespondenceDistance(20); 
@@ -143,11 +146,15 @@ int main(int argc, char *argv[]){
                 pcl::getTranslationAndEulerAngles(transWorldCurrent,currentX,currentY,currentZ,currentRoll,currentPitch,currentYaw);
                 myfile << "EDGE_SE2 " << pointCloudsTime[i] << " " << pointCloudsTime[j] << " " << currentX << " " << currentY << " " << currentYaw << " 0.1 0 0 0.1 0 0.1" << std::endl;
                 // save in this format: EDGE_SE2 i j x y theta info(x, y, theta)
+
+                newEdgeCount ++;
             }
         }
     }
 
     myfile.close();
+
+    std::cout << "added " << newEdgeCount << " edges" << std::endl;
 
     return 0;
 }
