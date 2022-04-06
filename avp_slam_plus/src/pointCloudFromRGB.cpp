@@ -438,14 +438,8 @@ void  calCloudFromImage(Eigen::Matrix3d& K, Eigen::Matrix3d& RT,const cv::Mat& i
                     continue;
                
                PointType po;
-<<<<<<< HEAD
                po.x = u1(0);
 	           po.y = -u1(1);
-=======
-               po.x = u1.x();
-	        //    po.y = u1.y();
-	           po.y = -u1.y();
->>>>>>> 21846d2c8428a4420849695ce323366f694b5ef6
 	           po.z = 0;
                po.r=r;
                po.g=g;

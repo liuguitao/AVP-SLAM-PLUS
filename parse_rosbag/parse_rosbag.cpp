@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
     Eigen::Affine3f transWorldCurrent;
 
     std::vector<pcl::PointCloud<PointType>::Ptr> pointClouds;
-    std::vector<ros::Time> pointCloudsTime;
+    std::vector<int> pointCloudsTime;
 
     ros::init (argc, argv, "bag_it");
     rosbag::Bag bag;
@@ -53,13 +53,14 @@ int main(int argc, char *argv[]){
     // possible to look at point clouds?
     //pcl::visualization::CloudViewer viewer("Cloud Viewer");
 
-
     float currentX=0;
     float currentY=0;
     float currentZ=0;
     float currentRoll=0;
     float currentPitch=0;
     float currentYaw=0;
+
+    int indexCount = 0;
 
     for(rosbag::MessageInstance const m: rosbag::View(bag))
     {
@@ -68,11 +69,30 @@ int main(int argc, char *argv[]){
 
         std_msgs::String::ConstPtr s = m.instantiate<std_msgs::String>();
         if (s != NULL){
-            size_t pos = s->data.find(" ");
-            std::string name = s->data.substr(0, pos);
-            //std::cout << name << std::endl;
-            // TODO parse and extract time and save the times in an array so we can convert to indexes
-            myfile << s->data << std::endl;
+            std::string text = s->data;
+            // myfile << text << std::endl;
+            
+            size_t pos = text.find(" ");
+            std::string name = text.substr(0, pos);
+            if(name == "VERTEX_SE2"){
+                indexCount+=1;
+                text = text.erase(0,pos+1);
+                pos = text.find(" ");
+                //ignore time
+                text = text.erase(0,pos+1);
+                myfile << name << " " << indexCount << " " << text << std::endl;
+            }
+            else if(name == "EDGE_SE2"){
+                text = text.erase(0,pos+1);
+                pos = text.find(" ");
+                //ignore time 1
+                text = text.erase(0,pos+1);
+                pos = text.find(" ");
+                //ignore time 2
+                text = text.erase(0,pos+1);
+                myfile << name << " " << indexCount-1 << " " << indexCount << " " << text << std::endl;
+            }
+            
         }
 
         sensor_msgs::PointCloud2::ConstPtr input = m.instantiate<sensor_msgs::PointCloud2>();
@@ -83,7 +103,7 @@ int main(int argc, char *argv[]){
             //std::cout << cloud->size() << std::endl;
 
             pointClouds.push_back(cloud);
-            pointCloudsTime.push_back(time);
+            pointCloudsTime.push_back(indexCount);
         }
     }
 
@@ -91,7 +111,7 @@ int main(int argc, char *argv[]){
     std::cout<<"done reading "<<pointClouds.size()<<" clouds"<<std::endl;
 
     int ignoredClouds = 30;
-    int cloudIncrement = 100;
+    int cloudIncrement = 10;
 
     static pcl::IterativeClosestPoint<PointType, PointType> icp;
     icp.setMaxCorrespondenceDistance(20); 
