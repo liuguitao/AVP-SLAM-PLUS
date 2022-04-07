@@ -9,13 +9,13 @@ import time
 moves = []
 
 def turnLeft90():
-    speed = 0.015
+    speed = 0.1
     moves.append((0,-math.pi/2*speed,1/speed))
 def turnRight90():
-    speed = 0.015
+    speed = 0.1
     moves.append((0,math.pi/2*speed,1/speed))
 def forward(x):
-    speed = 0.1
+    speed = 0.5
     moves.append((speed,0,x/speed))
 def stop():
     moves.append((0,0,0.1))
@@ -52,7 +52,7 @@ turnRight90()
 forward(5)
 turnRight90()
 forward(15)
-# turnRight90()
+turnRight90()
 stop()
 
 # for i in range(4):
@@ -67,8 +67,8 @@ twist = Twist()
 if __name__=="__main__":
 
     
-    pub = rospy.Publisher('/cmd_vel', Twist, queue_size=5)
-    # pub = rospy.Publisher('/ideal_cmd_vel', Twist, queue_size=5)
+    #pub = rospy.Publisher('/cmd_vel', Twist, queue_size=5)
+    pub = rospy.Publisher('/ideal_cmd_vel', Twist, queue_size=5)
     rospy.init_node('mrobot_teleop')
     rate = rospy.Rate(100)
 
