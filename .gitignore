@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# rosbags and g2o files
+/data/g2o/*
+/data/rosbag/*
