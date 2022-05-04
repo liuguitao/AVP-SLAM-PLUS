@@ -65,7 +65,7 @@ Visualization Manager:
         X: 0
         Y: 0
         Z: 0
-      Plane: XZ
+      Plane: XY
       Plane Cell Count: 100
       Reference Frame: <Fixed Frame>
       Value: false
@@ -129,29 +129,29 @@ Visualization Manager:
         map:
           camera0_link:
             {}
-        odom:
-          base_footprint:
-            base_link:
-              camera1_link:
+          odom:
+            base_footprint:
+              base_link:
+                camera1_link:
+                  {}
+                camera2_link:
+                  {}
+                camera3_link:
+                  {}
+                camera4_link:
+                  {}
+                camera5_link:
+                  {}
+                front_caster_link:
+                  {}
+                xMark_link:
+                  {}
+                yMark_link:
+                  {}
+              wheel_left_link:
                 {}
-              camera2_link:
+              wheel_right_link:
                 {}
-              camera3_link:
-                {}
-              camera4_link:
-                {}
-              camera5_link:
-                {}
-              front_caster_link:
-                {}
-              xMark_link:
-                {}
-              yMark_link:
-                {}
-            wheel_left_link:
-              {}
-            wheel_right_link:
-              {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
@@ -431,7 +431,7 @@ Visualization Manager:
           Value: true
         Value: true
       Enabled: true
-      Keep: 10
+      Keep: 1
       Name: Odometry
       Position Tolerance: 0.10000000149011612
       Shape:
@@ -503,25 +503,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 104.35429382324219
+      Distance: 100
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 36.855648040771484
-        Y: -13.89575481414795
-        Z: 21.03369140625
+        X: 30
+        Y: -10
+        Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.29479753971099854
+      Pitch: 1.57
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.6716673374176025
+      Yaw: 3.14
     Saved: ~
 Window Geometry:
   Displays:

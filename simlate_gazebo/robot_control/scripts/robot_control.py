@@ -23,10 +23,10 @@ CTRL-C to quit
 
 moveBindings = {
         'i':(1,0),
-        'o':(1,-1),
+        'o':(1,1),
         'j':(0,-1),
         'l':(0,1),
-        'u':(1,1),
+        'u':(1,-1),
         ',':(-1,0),
         '.':(-1,1),
         'm':(-1,-1),
@@ -109,7 +109,7 @@ if __name__=="__main__":
             target_speed = speed * x
             target_turn = turn * th
 
-         
+            '''
             if target_speed > control_speed:
                 control_speed = min( target_speed, control_speed + 0.02 )
             elif target_speed < control_speed:
@@ -123,7 +123,9 @@ if __name__=="__main__":
                 control_turn = max( target_turn, control_turn - 0.1 )
             else:
                 control_turn = target_turn
-
+            '''
+            control_speed = target_speed
+            control_turn = target_turn
         
             twist = Twist()
             twist.linear.x = control_speed; 

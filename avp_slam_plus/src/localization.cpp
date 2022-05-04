@@ -113,7 +113,7 @@ pcl::PointCloud<PointType>::Ptr transformPointCloud(pcl::PointCloud<PointType>::
 
 //   feature extration
 //   feature registration
-//   compute robot's pose
+//   compute robot's poses
 void cameraCloudHandler(const sensor_msgs::PointCloud2ConstPtr &cameraCloudMsg)
 {
     pcl::PointCloud<pcl::PointXYZRGB> cameraCloudIn;
@@ -182,7 +182,7 @@ void cameraCloudHandler(const sensor_msgs::PointCloud2ConstPtr &cameraCloudMsg)
                initPose=true;
        }
        if (ndt.hasConverged() == false || ndt.getFitnessScore() > ndtFitnessScoreThresh) {
-               std::cout << "ndt locolization failed    the score is   " << ndt.getFitnessScore() << std::endl;
+               std::cout << "ndt localization failed    the score is   " << ndt.getFitnessScore() << std::endl;
                 return ;
         } 
         else 
@@ -257,7 +257,7 @@ void cameraCloudHandler(const sensor_msgs::PointCloud2ConstPtr &cameraCloudMsg)
     cameraCloudCurrentInWorldMsg.header.frame_id = "/map";
     pubCurrentFeatureInWorld.publish(cameraCloudCurrentInWorldMsg);
 
-    
+
 
 }
 
@@ -274,12 +274,13 @@ void systemInit(){
 
 // load prior global map 
 void loadMap(){
-         globalFeatureCloud->clear();
-         std::cout<<"load map begin ******************"<<std::endl;
-         pcl::io::loadPCDFile(mapSaveLocation, *globalFeatureCloud);
-         std::cout<<"load map over ******************"<<std::endl;
-         globalMapLoad=true;
-     }
+    globalFeatureCloud->clear();
+    std::cout<<"load map begin ******************"<<std::endl;
+    pcl::io::loadPCDFile(mapSaveLocation, *globalFeatureCloud);
+    std::cout<<"load map over ******************"<<std::endl;
+    globalMapLoad=true;
+
+}
 
 
 // get initial pose from outer program ;For example ,judging position of robot from gps or mannual marker

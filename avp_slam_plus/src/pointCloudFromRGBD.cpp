@@ -49,6 +49,9 @@ std::queue<sensor_msgs::PointCloud2ConstPtr> camera5CloudBuf;
 std::mutex mBuf;
 
 
+Eigen::Matrix3d R0;
+Eigen::Vector3d T0;
+
 double timeCamera0Points=0;
 double timeCamera1Points=0;
 double timeCamera2Points=0;
@@ -59,6 +62,7 @@ double timeCamera5Points=0;
 float closePointThresh=0.1;
 float farPointThresh=20;
 float pointCloudLeafSize=0.1;
+double cameraRealiableDis=15.0;
 
 
 // delete close point
@@ -171,25 +175,28 @@ void camera5CloudHandler(const sensor_msgs::PointCloud2ConstPtr &cameraCloudMsg)
 
 
 
- Eigen::Quaterniond q_c0c1(1,0,0,0);
- Eigen::Vector3d t_c0c1(0, 0, 0);
+ Eigen::Quaterniond q_c0(1,0,0,0);
+ Eigen::Vector3d t_c0(0, 0, 0);
 
- Eigen::Quaterniond q_c0c2(1,0,0,0);
- Eigen::Vector3d t_c0c2(0, 0, 0);
+ Eigen::Quaterniond q_c1(1,0,0,0);
+ Eigen::Vector3d t_c1(0, 0, 0);
 
- Eigen::Quaterniond q_c0c3(1,0,0,0);
- Eigen::Vector3d t_c0c3(0, 0, 0);
+ Eigen::Quaterniond q_c2(1,0,0,0);
+ Eigen::Vector3d t_c2(0, 0, 0);
 
- Eigen::Quaterniond q_c0c4(1,0,0,0);
- Eigen::Vector3d t_c0c4(0, 0, 0);
+ Eigen::Quaterniond q_c3(1,0,0,0);
+ Eigen::Vector3d t_c3(0, 0, 0);
 
- Eigen::Quaterniond q_c0c5(1,0,0,0);
- Eigen::Vector3d t_c0c5(0, 0, 0);
+ Eigen::Quaterniond q_c4(1,0,0,0);
+ Eigen::Vector3d t_c4(0, 0, 0);
+
+ Eigen::Quaterniond q_c5(1,0,0,0);
+ Eigen::Vector3d t_c5(0, 0, 0);
 
 //   transform degree to quaternion
 void degToQuan(double& rotateDeg,Eigen::Quaterniond& q){
     
-   geometry_msgs::Quaternion camera0xQuat=tf::createQuaternionMsgFromRollPitchYaw(0,rotateDeg, 0);
+   geometry_msgs::Quaternion camera0xQuat=tf::createQuaternionMsgFromRollPitchYaw(0,-rotateDeg, 0);
    q.w()=camera0xQuat.w;
    q.x()=camera0xQuat.x;
    q.y()=camera0xQuat.y;
@@ -203,7 +210,7 @@ void transformToFrame(PointType const *const pi, PointType *const po, Eigen::Qua
 	Eigen::Vector3d point_curr(pi->x, pi->y, pi->z);
 	Eigen::Vector3d point_w = q * point_curr + t;
 	po->x = point_w.x();
-	po->y = point_w.y();
+	po->y = -point_w.y();
 	po->z = point_w.z();
     po->r=pi->r;
     po->g=pi->g;
@@ -240,12 +247,38 @@ int main(int argc, char *argv[]){
    nh.param<float>("pointCloudLeafSize", pointCloudLeafSize, 0.1);
    nh.param<float>("farPointThresh", farPointThresh, 20);
    nh.param<float>("closePointThresh", closePointThresh, 0.1);
- 
-   degToQuan(rotateDeg1,q_c0c1);
-   degToQuan(rotateDeg2,q_c0c2);
-   degToQuan(rotateDeg3,q_c0c3);
-   degToQuan(rotateDeg4,q_c0c4);
-   degToQuan(rotateDeg5,q_c0c5);
+   
+   std::vector<double> R0Double,T0Double;
+   nh.param<std::vector<double>>("R0", R0Double, std::vector<double>());
+   nh.param<std::vector<double>>("T0", T0Double, std::vector<double>());
+   R0 = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(R0Double.data(), 3, 3);
+   T0 = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(T0Double.data(), 3, 1);
+   R0 = Eigen::Quaterniond(R0);
+
+   degToQuan(rotateDeg1,q_c1);
+   degToQuan(rotateDeg2,q_c2);
+   degToQuan(rotateDeg3,q_c3);
+   degToQuan(rotateDeg4,q_c4);
+   degToQuan(rotateDeg5,q_c5);
+
+   //TODO change C and T to use R and T
+   q_c0 = R0.inverse();
+   t_c0 = -R0.inverse()*T0;
+
+   q_c1 = (q_c1*R0).inverse();
+   t_c1 = -R0.inverse()*T0;
+
+   q_c2 = (q_c2*R0).inverse();
+   t_c2 = -R0.inverse()*T0;
+
+   q_c3 = (q_c3*R0).inverse();
+   t_c3 = -R0.inverse()*T0;
+
+   q_c4 = (q_c4*R0).inverse();
+   t_c4 = -R0.inverse()*T0;
+
+   q_c5 = (q_c5*R0).inverse();
+   t_c5 = -R0.inverse()*T0;
 
    ros::Subscriber subcamera0Cloud = nh.subscribe<sensor_msgs::PointCloud2>("/camera0/depth/color/points", 100, camera0CloudHandler);
    ros::Subscriber subcamera1Cloud = nh.subscribe<sensor_msgs::PointCloud2>("/camera1/depth/color/points", 100, camera1CloudHandler);
@@ -365,34 +398,38 @@ int main(int argc, char *argv[]){
             *camera5Cloud=camera5CloudDS;
 
             // accumulate point cloud of every camera 
+            int camera0PointSize=camera0Cloud->points.size();
             int camera1PointSize=camera1Cloud->points.size();
             int camera2PointSize=camera2Cloud->points.size();
             int camera3PointSize=camera3Cloud->points.size();
             int camera4PointSize=camera4Cloud->points.size();
             int camera5PointSize=camera5Cloud->points.size();
 
+            for(int i=0;i<camera0PointSize;i++){
+               transformToFrame(&camera0Cloud->points[i],&camera0Cloud->points[i],q_c0,t_c0);
+            }
+
             for(int i=0;i<camera1PointSize;i++){
-               transformToFrame(&camera1Cloud->points[i],&camera1Cloud->points[i],q_c0c1,t_c0c1);
+               transformToFrame(&camera1Cloud->points[i],&camera1Cloud->points[i],q_c1,t_c1);
             }
 
              for(int i=0;i<camera2PointSize;i++){
-               transformToFrame(&camera2Cloud->points[i],&camera2Cloud->points[i],q_c0c2,t_c0c2);
+               transformToFrame(&camera2Cloud->points[i],&camera2Cloud->points[i],q_c2,t_c2);
             }
 
              for(int i=0;i<camera3PointSize;i++){
-               transformToFrame(&camera3Cloud->points[i],&camera3Cloud->points[i],q_c0c3,t_c0c3);
+               transformToFrame(&camera3Cloud->points[i],&camera3Cloud->points[i],q_c3,t_c3);
             }
 
              for(int i=0;i<camera4PointSize;i++){
-               transformToFrame(&camera4Cloud->points[i],&camera4Cloud->points[i],q_c0c4,t_c0c4);
+               transformToFrame(&camera4Cloud->points[i],&camera4Cloud->points[i],q_c4,t_c4);
             }
 
              for(int i=0;i<camera5PointSize;i++){
-               transformToFrame(&camera5Cloud->points[i],&camera5Cloud->points[i],q_c0c5,t_c0c5);
+               transformToFrame(&camera5Cloud->points[i],&camera5Cloud->points[i],q_c5,t_c5);
             }
 
           
-
 
              *cameraFrameCloud=*cameraFrameCloud+*camera0Cloud;
              *cameraFrameCloud=*cameraFrameCloud+*camera1Cloud;
@@ -412,7 +449,6 @@ int main(int argc, char *argv[]){
             cameraCloudFrameMsg.header.stamp = ros::Time::now();
             cameraCloudFrameMsg.header.frame_id = "/camera0_link";
             pubCameraCloudFrame.publish(cameraCloudFrameMsg);
-     
         }
 
         rate.sleep();
