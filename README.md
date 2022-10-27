@@ -27,7 +27,7 @@ This code is simple and is a good learning material for SLAM beginners.
 
 **Author**: Liu Guitao
 
-**Email**: liuguitao@sia.cn
+**Email**: 2521426640@qq.com
 
 ## 1. Prerequisites
 ### 1.1 **Ubuntu** and **ROS**
