@@ -7,7 +7,10 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
 )
 
-
 include_directories(
   ${catkin_INCLUDE_DIRS}
+)
+
+catkin_install_python(PROGRAMS scripts/robot_path.py
+  DESTINATION $(CATKIN_PACKAGE_BIN_DESTINATION)
 )

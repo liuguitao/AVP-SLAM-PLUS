@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(avp_slam_plus)
 
+set(CMAKE_SOURCE_DIR "/home/devin/catkin_ws/src")
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -g")
+
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
@@ -46,3 +48,11 @@ target_link_libraries(mapping ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES
 
 add_executable(localization src/localization.cpp)
 target_link_libraries(localization ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
+
+catkin_install_python(PROGRAMS scripts/Odometry.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS scripts/talker.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
